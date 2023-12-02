@@ -1,0 +1,45 @@
+﻿@page "{id:int}"
+@model InternetProvider.Pages.ConnectionPages.ConnectionEditProviderModel
+@{
+    ViewData["Title"] = "Изменение подключения";
+
+    <h2>Изменение подключения</h2>
+    <form method="post">
+        <p>
+            <label>Провайдер</label>
+            <select name="providerId">
+                @foreach (var provider in IndexModel.DBProvider.Providers.ToList())
+                {
+                    var isSelected = provider.Id == Model.Connection.ProviderId;
+                    if(isSelected)
+                    {
+                        <option value=@provider.Id selected="selected">@provider.Name</option> 
+                    }
+                    else
+                    {
+                        <option value=@provider.Id>@provider.Name</option>
+                    }
+                }
+            </select>
+        </p>
+        <p>
+            <label>Клиент</label>
+            <select name="clientId">
+                @foreach (var client in IndexModel.DBProvider.Clients.Include("House").ToList())
+                {
+                    var isSelected = client.Id == Model.Connection.ClientId;
+                    if (isSelected)
+                    {
+                        <option value=@client.Id selected="selected">@client.House.ToString()</option> 
+                    }
+                    else
+                    {
+                        <option value=@client.Id>@client.House.ToString()</option>
+                    }
+                }
+            </select>
+        </p>
+        <input type="submit" value="Изменить"/>
+    </form>
+        
+}

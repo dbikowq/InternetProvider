@@ -1,0 +1,31 @@
+﻿@page
+@model InternetProvider.Pages.ConnectionPages.ConnectionProviderModel
+@{
+    ViewData["Title"] = "Подключения";
+    <h2>Таблица подключений</h2>
+    var connections = IndexModel.DBProvider.Connections.ToList();
+    <div>
+        <table border="1">
+            <tr>
+                <th>Id</th>
+                <th>Провайдер</th>
+                <th>Клиент</th>
+            </tr>
+            @foreach (var connection in connections)
+            {
+                <tr>
+                    <td>@connection.Id</td>
+                    <td>@IndexModel.DBProvider.Providers.Find(connection.ProviderId).Name</td>
+                    <td>@IndexModel.DBProvider.Clients.Include("House").FirstOrDefault(x=>x.Id==connection.ClientId).House.Address</td>
+                    <td>
+                        <form method="post">
+                            <a asp-page="/ConnectionPages/ConnectionEditProvider" asp-route-id="@connection.Id">Изменить</a>
+                            <button type="submit" asp-route-id="@connection.Id">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <a asp-page="ConnectionCreateProvider">Добавить</a>
+}

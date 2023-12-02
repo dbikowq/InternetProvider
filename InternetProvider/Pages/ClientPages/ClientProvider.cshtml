@@ -1,0 +1,31 @@
+﻿@page
+@model InternetProvider.Pages.ClientPages.ClientProviderModel
+@{
+    ViewData["Title"] = "Клиенты";
+    <h2>Таблица клиентов</h2>
+    var clients = IndexModel.DBProvider.Clients.Include("House").ToList();
+    <div>
+        <table border="1">
+            <tr>
+                <th>Id</th>
+                <th>Номер дома </th>
+                <th>Адрес</th>
+            </tr>
+            @foreach (var client in clients)
+            {
+                <tr>
+                    <td>@client.Id</td>
+                    <td>@client.House.Number</td>
+                    <td>@client.House.Address</td>
+                    <td>
+                        <form method="post">
+                            <a asp-page="/ClientPages/EditProvider" asp-route-id="@client.Id">Изменить</a>
+                            <button type="submit" asp-route-id="@client.Id">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <a asp-page="ClientCreateProvider">Добавить</a>
+}

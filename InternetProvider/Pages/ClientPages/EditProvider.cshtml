@@ -1,0 +1,20 @@
+﻿@page "{id:int}"
+@model InternetProvider.Pages.ClientPages.EditProviderModel
+@{
+    ViewData["Title"] = "Редактирование клиента";
+    <h1>@ViewData["Title"]</h1>
+
+
+    <form method="post">
+        <input type="hidden" size="100" name="Id" value="@Model.Client?.Id">
+        <p>
+            <label>Номер дома</label><br />
+            <input name="number" value="@Model.Client?.House.Number" />
+        </p>
+        <p>
+            <label>Адрес</label><br />
+            <input name="address" value="@Model.Client?.House.Address" type="text" />
+        </p>
+        <input type="submit" value="Отправить" />
+    </form>
+}

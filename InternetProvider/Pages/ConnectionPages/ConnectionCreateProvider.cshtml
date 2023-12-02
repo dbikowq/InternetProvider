@@ -1,0 +1,29 @@
+﻿@page 
+@model InternetProvider.Pages.ConnectionPages.ConnectionCreateProviderModel
+@{
+    ViewData["Title"] = "Создание подключения";
+
+    <h2>@ViewData["Title"]</h2>
+    <form method="post">
+        <p>
+            <label>Провайдер</label>
+            <select name="providerId">
+                @foreach (var provider in IndexModel.DBProvider.Providers.ToList())
+                {
+                    <option value=@provider.Id>@provider.Name</option>
+                }
+            </select>
+        </p>
+        <p>
+            <label>Клиент</label>
+            <select name="clientId">
+                @foreach(var client in IndexModel.DBProvider.Clients.Include("House").ToList())
+                {
+                    <option value=@client.Id>@client.House.ToString()</option>
+                }
+            </select>
+        </p>
+        <input type="submit" value="Добавить"/>
+    </form>
+
+}

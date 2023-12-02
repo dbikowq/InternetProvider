@@ -1,0 +1,42 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Провайдеры";
+}
+
+@{
+    if(!string.IsNullOrEmpty(Model.Message))
+    {
+        <h2>@Model.Message</h2>
+        <a asp-page="/Index">Назад</a>
+    }
+    else
+    {
+        <h2>Таблица провайдеров</h2>
+        var providers = IndexModel.DBProvider.Providers.ToList();
+        <div>
+            <table border="1">
+                <tr>
+                    <th>Id</th>
+                    <th>Наименование </th>
+                    <th>Контактная информация</th>
+                </tr>
+                @foreach (var provider in providers)
+                {
+                    <tr>
+                        <td>@provider.Id</td>
+                        <td>@provider.Name</td>
+                        <td>@provider.ContactsInfo</td>
+                        <td>
+                            <form method="post">
+                                <a asp-page="ProviderPages/EditProvider" asp-route-id="@provider.Id">Изменить</a>
+                                <button type="submit" asp-page-handler="Delete" asp-route-id="@provider.Id">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <a asp-page="ProviderPages/CreateProvider">Добавить</a>
+    }
+}
